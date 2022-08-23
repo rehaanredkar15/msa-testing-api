@@ -11,16 +11,12 @@ const limit = rateLimit({
 
 const router = new Router();
 
-// router.use('/admin/events', verifyAdminAccessToken, require('./api/EventsApi/EventsAdminApi'));
 router.use('/events', verifyFCMToken, require('./api/EventsApi/EventsClientApi'));
 
-// router.use('/admin/masjid', verifyAdminAccessToken, require('./api/MasjidApi/MasjidAdminApi'));
 router.use('/masjid', verifyFCMToken, require('./api/MasjidApi/MasjidClientApi'));
 
-// router.use('/admin/timings',verifyAdminAccessToken,require('./api/TimingsApi/TimingAdminApi'));
 router.use('/timings', verifyFCMToken, require('./api/TimingsApi/TimingClientApi'), limit);
 
-// router.use('/admindetails', verifyAdminAccessToken, require('./api/AdminApi'));
 router.use('/auth', require('./api/AuthApi'));
 
 module.exports = router;
