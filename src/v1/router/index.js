@@ -2,7 +2,7 @@ const { Router } = require('express');
 const rateLimit = require('express-rate-limit');
 const { verifyFCMToken } = require('../../../middleware/authMiddleware');
 
-// adding rate limit for the routes so that unwanted load of requests doesnt harm server
+// adding rate limit for the routes so that unwanted load of requests doesn't harm server
 const limit = rateLimit({
   max: 100, // max requests
   windowMs: 60 * 60 * 1000, // 1 Hour
