@@ -69,7 +69,7 @@ app.use(errHandler);
 // });
 
 // api working check
-app.get('/', verifyFCMToken, async (req, res) => {
+app.get('/', async (req, res) => {
   try {
     // const token = await signAdminAccessToken(req.Id);
     // const refToken = await signAdminRefreshToken(req.Id);
