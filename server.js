@@ -19,7 +19,7 @@ const {
 dotenv.config({ path: './config/config.env' });
 
 // getting the port from the environment variables
-const PORT = process.env.PORT || 5500;
+const PORT = process.env.PORT;
 
 // initializing the express app
 const app = express();
