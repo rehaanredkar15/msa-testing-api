@@ -148,3 +148,76 @@ exports.deleteEvent = async (req, res) => {
     return res.status(501).json({ error: "Couldn't Find the Event" });
   }
 };
+
+
+// @desc get all the event
+// @route GET /api/v1/events/getEventById
+// @access Public
+exports.getEventById = async (req, res) => {
+  try {
+    const event = await Event.findById(req.params.id, {
+      createdAt: 0, updatedAt: 0, __v: 0,
+    });
+   
+    if(event){
+
+      return res.status(200).json({
+        success: true,
+        data: event,
+        message:"Found the Event Successfully"
+      });
+    }
+    
+    return res.status(200).json({
+      success: false,
+      data: [],
+      message:"Couldn't Find the Event "
+    });
+
+
+
+  } catch (error) {
+    return res.status(500).json({ 
+      success: false,
+      message:"Couldn't Find the Event" + error.message,
+      data:[]
+    });
+  }
+};
+
+
+
+  // @desc get all the events of certain masjids.
+  // @route Post /api/v1/masjid/getNearByEvents
+  // @access Public
+  exports.getEventsByMasjidId = async (req, res) => {
+    try {
+      const events = await Event.find({
+        masjidId: req.params.masjidId
+      }, {
+        createdAt: 0, updatedAt: 0, __v: 0,
+      });
+  
+      if(events.length>0){
+  
+        return res.status(200).json({
+          success: true,
+          count: events.length,
+          data: events,
+      });
+    }
+    return res.status(200).json({
+      success: false,
+      count:0,
+      message: 'Masjid Events Not Found',
+      data:[]
+    });
+  
+    } catch (error) {
+      return res.status(500).json({
+        success: false,
+        data:[],
+         message: error.message 
+        });
+    }
+  };

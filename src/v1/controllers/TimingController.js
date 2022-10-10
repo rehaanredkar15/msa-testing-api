@@ -2,94 +2,7 @@
 /* eslint-disable no-undef */
 const Timing = require('../model/TimingSchema');
 // const { TimingSchema } = require('../../../helpers/validation_schema');
-// @desc get the timings according to the Timing.
-// @route GET /api/v1/timings/getTiming/:MasjidId
-// @access Public
-exports.getTimingByMasjid = async (req, res) => {
-  try {
-    const timings = await Timing.find({ masjidId: req.params.masjidId }, {
-      masjidId: 0, createdAt: 0, updatedAt: 0, __v: 0,
-    });
 
-    if (timings.length > 0) {
-      return res.status(200).json({
-        success: true,
-        count: timings.length,
-        data: timings,
-      });
-    }
-
-    return res.status(404).json({
-      success: false,
-      message: 'Not Found',
-    });
-  } catch (error) {
-    return res.status(500).json({ error: error.message });
-  }
-};
-
-// @desc get the timings according to the Timing.
-// @route GET /api/v1/timings/getTimingByDate/:date
-// @access Public
-exports.getTimingByDate = async (req, res) => {
-  try {
-    const date = new Date(req.query.date);
-    const timings = await Timing.find({ date }, {
-      masjidId: 0, createdAt: 0, updatedAt: 0, __v: 0,
-    });
-
-    if (timings.length > 0) {
-      return res.status(200).json({
-        success: true,
-        count: timings.length,
-        data: timings,
-      });
-    }
-
-    return res.status(500).json({
-      success: false,
-      message: 'No Timings Available for that date',
-    });
-  } catch (error) {
-    return res.status(500).json({ error: error.message });
-  }
-};
-
-// @desc get all the date from the range.
-// @route GET /api/v1/entries/getEntryByDateRange
-// @access Public
-exports.getTimingByDateRange = async (req, res) => {
-  try {
-    const startDate = new Date(req.query.startDate);
-
-    const timings = await Timing.find({
-      date:
-                {
-                  $gte: startDate,
-                },
-
-      masjidId: req.params.masjidId,
-    }, {
-      masjidId: 0, createdAt: 0, updatedAt: 0, __v: 0,
-    }).sort({ arrivingDate: 'asc' });
-
-    if (timings.length > 0) {
-      return res.status(200).json({
-        success: true,
-        count: timings.length,
-        masjidId: req.params.masjidId,
-        data: timings,
-      });
-    }
-
-    return res.status(404).json({
-      success: false,
-      message: 'Not Found',
-    });
-  } catch (error) {
-    return res.status(500).json({ error: error.message });
-  }
-};
 
 // @desc Create  the timings
 // @route POST  /api/v1/timings/addTiming
@@ -256,9 +169,37 @@ exports.deleteTiming = async (req, res) => {
 // @desc get the timings according to the Timing.
 // @route GET /api/v1/timings/getTiming/:MasjidId
 // @access Public
-exports.getTimingById = async (req, res) => {
+exports.getTimingByMasjid = async (req, res) => {
   try {
-    const timings = await Timing.find({ _id: req.params.timingId }, {
+    const timings = await Timing.find({ masjidId: req.params.masjidId }, {
+      masjidId: 0, createdAt: 0, updatedAt: 0, __v: 0,
+    });
+
+    if (timings.length > 0) {
+      return res.status(200).json({
+        success: true,
+        count: timings.length,
+        data: timings,
+      });
+    }
+
+    return res.status(200).json({
+      success: false,
+      data:[],
+      message: 'Timings Not Found',
+    });
+  } catch (error) {
+    return res.status(500).json({ error: error.message });
+  }
+};
+
+// @desc get the timings according to the Timing.
+// @route GET /api/v1/timings/getTimingByDate/:date
+// @access Public
+exports.getTimingByDate = async (req, res) => {
+  try {
+    const date = new Date(req.query.date);
+    const timings = await Timing.find({ date ,masjidId:req.params.masjidId }, {
       createdAt: 0, updatedAt: 0, __v: 0,
     });
 
@@ -270,9 +211,161 @@ exports.getTimingById = async (req, res) => {
       });
     }
 
-    return res.status(404).json({
+    return res.status(200).json({
       success: false,
-      message: 'Not Found',
+      data:[],
+      message: 'No Timings Available for that date',
+    });
+  } catch (error) {
+    return res.status(500).json({ error: error.message });
+  }
+};
+
+
+
+// @desc get the timings according to the Timing.
+// @route GET /api/v1/timings/getTiming/:MasjidId
+// @access Public
+exports.getTimingById = async (req, res) => {
+  try {
+    const timings = await Timing.find({ _id: req.params.timingId }, {
+      createdAt: 0, updatedAt: 0, __v: 0,
+    });
+
+    if (timings.length > 0) {
+      return res.status(200).json({
+        success: true,
+        message: 'Masjid Timings Found',
+        count: timings.length,
+        data: timings,
+      });
+    }
+
+    return res.status(200).json({
+      success: false,
+      data:[],
+      message: 'Timings Not Found'
+    });
+  } catch (error) {
+    return res.status(500).json({
+      success: false,
+      message:error.message,
+      data:[]
+      });
+    }
+  };
+
+  
+// @desc get all the date from the range.
+// @route GET /api/v1/entries/getEntryByDateRange
+// @access Public
+exports.getTimingByStartRange = async (req, res) => {
+  try {
+    const startDate = new Date(req.query.startDate);
+
+    const timings = await Timing.find({
+      date:
+                {
+                  $gte: startDate,
+                },
+
+      masjidId: req.params.masjidId,
+    }, {
+      masjidId: 0, createdAt: 0, updatedAt: 0, __v: 0,
+    }).sort({ arrivingDate: 'asc' });
+
+    if (timings.length > 0) {
+      return res.status(200).json({
+        success: true,
+        count: timings.length,
+        masjidId: req.params.masjidId,
+        data: timings,
+      });
+    }
+
+    return res.status(200).json({
+      success: false,
+      data:[],
+      message: 'Timings Not Found',
+    });
+  } catch (error) {
+    return res.status(500).json({ error: error.message });
+  }
+};
+
+
+// @desc get all the date from the range.
+// @route GET /api/v1/entries/getEntryByDateRange
+// @access Public
+exports.getDatesByStartRange = async (req, res) => {
+  try {
+
+    const startDate = new Date(req.query.startDate);
+
+    const timings = await Timing.find({
+      date:
+                {
+                  $gte: startDate,
+                },
+
+      masjidId: req.params.masjidId,
+    }, {
+      masjidId: 0, createdAt: 0, updatedAt: 0, __v: 0,timings:0,_id:0
+    }).sort({ arrivingDate: 'asc' });
+
+    if (timings.length > 0) {
+      return res.status(200).json({
+        success: true,
+        count: timings.length,
+        masjidId: req.params.masjidId,
+        data: timings,
+      });
+    }
+
+    return res.status(200).json({
+      success: false,
+      data:[],
+      message: 'Timings Not Found',
+    });
+  } catch (error) {
+    return res.status(500).json({ error: error.message });
+  }
+};
+
+
+// @desc get all the date from the range.
+// @route GET /api/v1/entries/getEntryByDateRange
+// @access Public
+exports.getTimingByDateRange = async (req, res) => {
+  try {
+    const startDate = new Date(req.query.startDate);
+    const endDate = new Date(req.query.endDate);
+
+    const timings = await Timing.find({
+      date:
+                {
+                  $gte: startDate,
+                  $lte:endDate
+                },
+
+      masjidId: req.params.masjidId,
+    }, {
+      masjidId: 0, createdAt: 0, updatedAt: 0, __v: 0,
+    }).sort({ arrivingDate: 'asc' });
+
+    if (timings.length > 0) {
+      return res.status(200).json({
+        success: true,
+        count: timings.length,
+        masjidId: req.params.masjidId,
+        data: timings,
+      });
+    }
+
+    return res.status(200).json({
+      success: false,
+      data:[],
+      message: 'Timings Not Found',
     });
   } catch (error) {
     return res.status(500).json({ error: error.message });

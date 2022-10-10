@@ -1,7 +1,7 @@
 /* eslint-disable max-len */
 const { Router } = require('express');
 const {
-  getTimingByMasjid, getTimingById, getTimingByDateRange, getTimingByDate,
+  getTimingByMasjid, getTimingById, getTimingByDate, getTimingByStartRange, getTimingByDateRange, getDatesByStartRange
 } = require('../../../controllers/TimingController');
 
 const TimingsApi = new Router();
@@ -13,7 +13,13 @@ TimingsApi.get('/getTimingByMasjid/:masjidId', getTimingByMasjid);
 TimingsApi.get('/getTimingById/:timingId', getTimingById);
 
 // Get the timings of a masjid.
-TimingsApi.get('/getTimingByDate', getTimingByDate);
+TimingsApi.get('/getTimingByDate/:masjidId', getTimingByDate);
+
+// Get the timings of a masjid.
+TimingsApi.get('/getTimingByStartRange/:masjidId', getTimingByStartRange);
+
+// Get the timings of a masjid.
+TimingsApi.get('/getDatesByStartRange/:masjidId', getDatesByStartRange);
 
 // Get the timings of a masjid.
 TimingsApi.get('/getTimingByDateRange/:masjidId', getTimingByDateRange);
