@@ -45,8 +45,12 @@ exports.getEventsByMasjid = async (req, res) => {
 // @route Post /api/v1/masjid/getNearByEvents
 // @access Public
 exports.getNearByEvents = async (req, res) => {
+  const coordinates = [];
   try {
-    const distance = req.body.distanceType === 'Miles' ? req.body.distance * 1609 : req.body.distance * 1000;
+    const distance = req.body.distanceType === 'Miles'
+      ? req.body.distance * 1609 : req.body.distance * 1000;
+    coordinates.push(req.body.coordinates[1]);
+    coordinates.push(req.body.coordinates[0]);
 
     const events = await Event.find({
       location:
@@ -55,7 +59,7 @@ exports.getNearByEvents = async (req, res) => {
                    {
                      $geometry:
                        {
-                         type: 'Point', coordinates: req.body.coordinates,
+                         type: 'Point', coordinates,
                        },
                      $maxDistance: distance,
                    },

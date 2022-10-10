@@ -1,4 +1,3 @@
-const geoip = require('geoip-lite');
 const Masjid = require('../model/MasjidSchema');
 // const { MasjidSchema } = require('../../../helpers/validation_schema');
 
@@ -70,42 +69,38 @@ exports.getMasjidById = async (req, res) => {
 // @route POST  /api/v1/masjid/getNearMasjid
 // @access Public
 exports.getNearMasjid = async (req, res) => {
+  const coordinates = [];
+
   try {
-    let ip = req.headers['x-forwarded-for'] || req.connection.remoteAddress;
-    if (ip.substr(0, 7) === '::ffff:') { ip = ip.substr(7); }
-    console.log(ip);
+    const distance = req.body.distanceType === 'Miles'
+      ? req.body.distance * 1609 : req.body.distance * 1000;
+    coordinates.push(req.body.coordinates[1]);
+    coordinates.push(req.body.coordinates[0]);
 
-    console.log(req.socket.remoteAddress);
-    const geo = geoip.lookup('106.76.78.65');
-    console.log(geo);
+    const masjid = await Masjid.find({
+      location:
+                       {
+                         $near:
+                          {
+                            $maxDistance: distance,
+                            $geometry:
+                              {
+                                type: 'Point', coordinates,
+                              },
 
-    // const distance = req.body.distanceType === 'Miles' ?
-    //  req.body.distance * 1609 : req.body.distance * 1000;
+                          },
+                       },
+    }, {
+      createdAt: 0, updatedAt: 0, __v: 0,
+    });
 
-    // const masjid = await Masjid.find({
-    //   location:
-    //                    {
-    //                      $near:
-    //                       {
-    //                         $maxDistance: distance,
-    //                         $geometry:
-    //                           {
-    //                             type: 'Point', coordinates: req.body.coordinates,
-    //                           },
-
-    //                       },
-    //                    },
-    // }, {
-    //   createdAt: 0, updatedAt: 0, __v: 0,
-    // });
-
-    // if (masjid.length > 0) {
-    //   return res.status(200).json({
-    //     success: true,
-    //     count: masjid.length,
-    //     data: masjid,
-    //   });
-    // }
+    if (masjid.length > 0) {
+      return res.status(200).json({
+        success: true,
+        count: masjid.length,
+        data: masjid,
+      });
+    }
     return res.status(404).json({
       success: false,
       message: " No Masjid's Found,try increasing the search distance",

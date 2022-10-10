@@ -16,21 +16,24 @@ const EventSchema = new Schema(
     desc: {
       type: String,
     },
-    EventPhotos: {
+    eventPhotos: {
       type: [String],
-      default: '',
+    },
+    eventProfilePhoto:{
+      type: String,
     },
     timings: [
       {
-        date: Number,
+        startDate: Date,
+        endDate: Date,
         startTime: Number,
         endTime: Number,
       },
     ],
     guests: [
       {
-        name: String,
-        desc: String,
+        guestName: String,
+        guestDesc: String,
       },
     ],
     location: {

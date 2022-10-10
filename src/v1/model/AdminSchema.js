@@ -1,6 +1,7 @@
 /* eslint-disable no-unused-vars */
 const mongoose = require('mongoose');
 const bcrypt = require('bcrypt');
+const crypto = require('crypto');
 const jwt = require('jsonwebtoken');
 const dotenv = require('dotenv');
 
@@ -14,6 +15,10 @@ const AdminSchema = new mongoose.Schema(
     },
     email: {
       type: String,
+      unique:true,
+    },
+    adminProfilePhoto:{
+      type:String,
     },
     password: {
       type: String,
@@ -23,6 +28,15 @@ const AdminSchema = new mongoose.Schema(
     role: {
       type: String,
     },
+    isTwoFactorAuthentication:{
+        type: Boolean,
+        default: false
+    },
+    secret:{
+      type:String,
+    },
+    resetPasswordToken: String,
+    resetPasswordExpire: Date,
   },
   { timestamps: true, bufferCommands: false },
 );

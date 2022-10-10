@@ -1,6 +1,5 @@
 /* eslint-disable no-underscore-dangle */
 const { Schema, model } = require('mongoose');
-// const uniqueValidator = require('mongoose-unique-validator');
 const { enums } = require('../../../constants');
 
 const TimingSchema = new Schema(
@@ -12,13 +11,16 @@ const TimingSchema = new Schema(
     date: {
       type: Date,
     },
+    lastEditor:{
+      type: String,
+    },
     timings: [
       {
         namazName:
         {
           type: String,
           enum: Object.values(enums.NAMAZ),
-          unique: true,
+          // unique: true,
           // validate: async (value) => {
           //   try {
           //     const result = await TimingSchema.findOne({ namazName: value });

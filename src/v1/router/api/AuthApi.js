@@ -1,15 +1,11 @@
 const { Router } = require('express');
 const {
-  adminRegister, adminLogin, ClientRefreshingToken, refreshingToken, ResetPassword,
+  ClientRefreshingToken,
 } = require('../../controllers/AuthController');
 
 const AuthApi = new Router();
 
-// Get all the ents
-AuthApi.post('/adminRegister', adminRegister);
-AuthApi.post('/adminLogin', adminLogin);
-AuthApi.post('/refresh', refreshingToken);
+// Get the client token refreshed
 AuthApi.post('/clientRefresh', ClientRefreshingToken);
-AuthApi.post('/resetPassword', ResetPassword);
 
 module.exports = AuthApi;

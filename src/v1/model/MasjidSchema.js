@@ -11,8 +11,10 @@ const MasjidSchema = new Schema(
       required: true,
     },
     masjidPhotos: {
-      type: [String],
-      default: '',
+      type: [String]
+    },
+    masjidProfilePhoto:{
+      type: String,
     },
     desc: {
       type: String,
@@ -25,12 +27,15 @@ const MasjidSchema = new Schema(
       required: true,
     },
     contact: {
-      type: [String],
+      type: String,
     },
     createdBy: {
       type: String,
     },
     admin: {
+      type: String,
+    },
+    lastEditor:{
       type: String,
     },
     location: {
