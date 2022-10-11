@@ -171,6 +171,31 @@ exports.deleteTiming = async (req, res) => {
 // @access Public
 exports.getTimingByMasjid = async (req, res) => {
   try {
+
+    if(!req.params.masjidId){
+      return res.status(200).json({
+        success: false,
+        count: 0,
+        message: "Add Id to the request please",
+        data: []
+      });
+    }
+
+    var ObjectID = require("mongodb").ObjectID
+   
+
+    if(!ObjectID.isValid(req.params.masjidId)){
+
+      return res.status(200).json({
+        success: false,
+        count: 0,
+        message: "The Provided Id is invalid",
+        data: []
+      });
+
+    }
+
+    
     const timings = await Timing.find({ masjidId: req.params.masjidId }, {
       masjidId: 0, createdAt: 0, updatedAt: 0, __v: 0,
     });
@@ -178,18 +203,26 @@ exports.getTimingByMasjid = async (req, res) => {
     if (timings.length > 0) {
       return res.status(200).json({
         success: true,
-        count: timings.length,
-        data: timings,
+        count: timings?.length,
+        message:"Timings Found",
+        data: timings
+        
       });
     }
 
     return res.status(200).json({
       success: false,
+      count:0,
       data:[],
       message: 'Timings Not Found',
     });
   } catch (error) {
-    return res.status(500).json({ error: error.message });
+    return res.status(500).json({
+        success: false,
+      count:0,
+      data:[],
+      message: 'Timings Not Found' + error.message
+     });
   }
 };
 
@@ -199,6 +232,38 @@ exports.getTimingByMasjid = async (req, res) => {
 exports.getTimingByDate = async (req, res) => {
   try {
     const date = new Date(req.query.date);
+
+    if(!date){
+      return res.status(200).json({
+        success: false,
+        count: 0,
+        message: "Add date to the request please",
+        data: []
+      });
+    }
+    
+    if(!req.params.masjidId){
+      return res.status(200).json({
+        success: false,
+        count: 0,
+        message: "Add Id to the request please",
+        data: []
+      });
+    }
+
+    var ObjectID = require("mongodb").ObjectID
+   
+
+    if(!ObjectID.isValid(req.params.masjidId)){
+
+      return res.status(200).json({
+        success: false,
+        count: 0,
+        message: "The Provided Id is invalid",
+        data: []
+      });
+
+    }
     const timings = await Timing.find({ date ,masjidId:req.params.masjidId }, {
       createdAt: 0, updatedAt: 0, __v: 0,
     });
@@ -206,18 +271,26 @@ exports.getTimingByDate = async (req, res) => {
     if (timings.length > 0) {
       return res.status(200).json({
         success: true,
-        count: timings.length,
-        data: timings,
+        count: timings?.length,
+        message:"Timings Found",
+        data: timings
       });
     }
 
     return res.status(200).json({
       success: false,
+      count:0,
       data:[],
       message: 'No Timings Available for that date',
     });
   } catch (error) {
-    return res.status(500).json({ error: error.message });
+    return res.status(500).json({  
+       success: false,
+      count:0,
+      data:[],
+      message: 'Timings Not Found' + error.message 
+    
+    });
   }
 };
 
@@ -228,6 +301,30 @@ exports.getTimingByDate = async (req, res) => {
 // @access Public
 exports.getTimingById = async (req, res) => {
   try {
+
+    if(!req.params.timingId){
+      return res.status(200).json({
+        success: false,
+        count: 0,
+        message: "Add Id to the request please",
+        data: []
+      });
+    }
+
+    var ObjectID = require("mongodb").ObjectID
+   
+
+    if(!ObjectID.isValid(req.params.timingId)){
+
+      return res.status(200).json({
+        success: false,
+        count: 0,
+        message: "The Provided Id is invalid",
+        data: []
+      });
+
+    }
+
     const timings = await Timing.find({ _id: req.params.timingId }, {
       createdAt: 0, updatedAt: 0, __v: 0,
     });
@@ -235,22 +332,24 @@ exports.getTimingById = async (req, res) => {
     if (timings.length > 0) {
       return res.status(200).json({
         success: true,
-        message: 'Masjid Timings Found',
-        count: timings.length,
-        data: timings,
+        count: timings?.length,
+        message:"Timings Found",
+        data: timings
       });
     }
 
     return res.status(200).json({
       success: false,
+      count:0,
       data:[],
       message: 'Timings Not Found'
     });
   } catch (error) {
     return res.status(500).json({
       success: false,
-      message:error.message,
-      data:[]
+      count:0,
+      data:[],
+      message: 'Timings Not Found' + error.message
       });
     }
   };
@@ -261,7 +360,41 @@ exports.getTimingById = async (req, res) => {
 // @access Public
 exports.getTimingByStartRange = async (req, res) => {
   try {
+   
+
     const startDate = new Date(req.query.startDate);
+
+    if(!req.query.startDate){
+      return res.status(200).json({
+        success: false,
+        count: 0,
+        message: "Add date to the request please",
+        data: []
+      });
+    }
+
+    if(!req.params.masjidId){
+      return res.status(200).json({
+        success: false,
+        count: 0,
+        message: "Add Id to the request please",
+        data: []
+      });
+    }
+
+    var ObjectID = require("mongodb").ObjectID
+   
+
+    if(!ObjectID.isValid(req.params.masjidId)){
+
+      return res.status(200).json({
+        success: false,
+        count: 0,
+        message: "The Provided Id is invalid",
+        data: []
+      });
+
+    }
 
     const timings = await Timing.find({
       date:
@@ -277,9 +410,9 @@ exports.getTimingByStartRange = async (req, res) => {
     if (timings.length > 0) {
       return res.status(200).json({
         success: true,
-        count: timings.length,
-        masjidId: req.params.masjidId,
-        data: timings,
+        count: timings?.length,
+        message:"Timings Found",
+        data: timings
       });
     }
 
@@ -289,7 +422,12 @@ exports.getTimingByStartRange = async (req, res) => {
       message: 'Timings Not Found',
     });
   } catch (error) {
-    return res.status(500).json({ error: error.message });
+    return res.status(500).json({ 
+        success: false,
+      count:0,
+      data:[],
+      message: 'Timings Not Found' + error.message
+     });
   }
 };
 
@@ -301,6 +439,38 @@ exports.getDatesByStartRange = async (req, res) => {
   try {
 
     const startDate = new Date(req.query.startDate);
+
+    if(!req.query.startDate){
+      return res.status(200).json({
+        success: false,
+        count: 0,
+        message: "Add date to the request please",
+        data: []
+      });
+    }
+
+    if(!req.params.masjidId){
+      return res.status(200).json({
+        success: false,
+        count: 0,
+        message: "Add Id to the request please",
+        data: []
+      });
+    }
+
+    var ObjectID = require("mongodb").ObjectID
+   
+
+    if(!ObjectID.isValid(req.params.masjidId)){
+
+      return res.status(200).json({
+        success: false,
+        count: 0,
+        message: "The Provided Id is invalid",
+        data: []
+      });
+
+    }
 
     const timings = await Timing.find({
       date:
@@ -316,7 +486,8 @@ exports.getDatesByStartRange = async (req, res) => {
     if (timings.length > 0) {
       return res.status(200).json({
         success: true,
-        count: timings.length,
+        count: timings?.length,
+        message:"Timings Found",
         masjidId: req.params.masjidId,
         data: timings,
       });
@@ -328,7 +499,12 @@ exports.getDatesByStartRange = async (req, res) => {
       message: 'Timings Not Found',
     });
   } catch (error) {
-    return res.status(500).json({ error: error.message });
+    return res.status(500).json({  
+       success: false,
+      count:0,
+      data:[],
+      message: 'Timings Not Found' + error.message
+     });
   }
 };
 
@@ -340,6 +516,38 @@ exports.getTimingByDateRange = async (req, res) => {
   try {
     const startDate = new Date(req.query.startDate);
     const endDate = new Date(req.query.endDate);
+
+    if(!req.query.startDate && !req.query.endDate ){
+      return res.status(200).json({
+        success: false,
+        count: 0,
+        message: "Add date to the request please",
+        data: []
+      });
+    }
+
+    if(!req.params.masjidId){
+      return res.status(200).json({
+        success: false,
+        count: 0,
+        message: "Add Id to the request please",
+        data: []
+      });
+    }
+
+    var ObjectID = require("mongodb").ObjectID
+   
+
+    if(!ObjectID.isValid(req.params.masjidId)){
+
+      return res.status(200).json({
+        success: false,
+        count: 0,
+        message: "The Provided Id is invalid",
+        data: []
+      });
+
+    }
 
     const timings = await Timing.find({
       date:
@@ -356,9 +564,10 @@ exports.getTimingByDateRange = async (req, res) => {
     if (timings.length > 0) {
       return res.status(200).json({
         success: true,
-        count: timings.length,
+        count: timings?.length,
+        message:"Timings Found",
         masjidId: req.params.masjidId,
-        data: timings,
+        data: timings
       });
     }
 
@@ -368,6 +577,11 @@ exports.getTimingByDateRange = async (req, res) => {
       message: 'Timings Not Found',
     });
   } catch (error) {
-    return res.status(500).json({ error: error.message });
+    return res.status(500).json({ 
+       success: false,
+      count:0,
+      data:[],
+      message: 'Timings Not Found' + error.message
+     });
   }
 };

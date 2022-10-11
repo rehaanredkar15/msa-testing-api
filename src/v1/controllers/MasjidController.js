@@ -264,6 +264,17 @@ exports.getAreaMasjids = async (req, res) => {
 // @access Public
 exports.getMasjidByAreaSearch = async (req, res) => {
   try {
+     if(!req.params.address){
+   
+        return res.status(200).json({
+          success: false,
+          count: 0,
+          message: "Add Area Name to the request please",
+          data: []
+        });
+
+     }
+
     const regex = new RegExp(req.params.address, 'i');
 
     const masjids = await Masjid.find({ address: regex }, {

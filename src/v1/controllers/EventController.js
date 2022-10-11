@@ -10,10 +10,17 @@ exports.getAllEvents = async (req, res) => {
 
     return res.status(200).json({
       success: true,
+      count: data?.length ,
+      message: "  Events's Found",
       data,
     });
   } catch (error) {
-    return res.status(500).json({ error: error.message });
+    return res.status(500).json({
+      success: false,
+      count: 0 ,
+      message: " No Events's Found",
+      data: []
+    });
   }
 };
 
@@ -22,21 +29,40 @@ exports.getAllEvents = async (req, res) => {
 // @access Public
 exports.getEventsByMasjid = async (req, res) => {
   try {
+    
+    if(!req.body.masjidIds){
+      return res.status(200).json({
+        success: false,
+        count: 0,
+        message: "Add coordinates to the request please",
+        data: []
+      });
+    }
+
+
     const events = await Event.find({
       masjidId: {
-        $in: req.body,
+        $in: req.body.masjidIds,
       },
     }, {
-      masjidId: 0, createdAt: 0, updatedAt: 0, __v: 0,
+       createdAt: 0, updatedAt: 0, __v: 0,
     });
 
     return res.status(200).json({
       success: true,
-      count: events.length,
-      data: events,
+      count: events?.length ,
+      message: " Events's Found",
+      data:events,
     });
   } catch (error) {
-    return res.status(500).json({ error: error.message });
+    return res.status(500).json({ 
+ 
+      success: false,
+      count: 0 ,
+      message: " No Events's Found",
+      data: []
+
+     });
   }
 };
 
@@ -47,6 +73,16 @@ exports.getEventsByMasjid = async (req, res) => {
 exports.getNearByEvents = async (req, res) => {
   const coordinates = [];
   try {
+
+    if(!req.body.coordinates){
+      return res.status(200).json({
+        success: false,
+        count: 0,
+        message: "Add coordinates to the request please",
+        data: []
+      });
+    }
+
     const distance = req.body.distanceType === 'Miles'
       ? req.body.distance * 1609 : req.body.distance * 1000;
     coordinates.push(req.body.coordinates[0]);
@@ -71,17 +107,26 @@ exports.getNearByEvents = async (req, res) => {
     if (events.length > 0) {
       return res.status(200).json({
         success: true,
-        count: events.length,
-        data: events,
+        count: events?.length ,
+        message: "Events's Found",
+        data:events,
       });
     }
 
-    return res.status(404).json({
+    return res.status(500).json({
       success: false,
-      message: " No Event's Found",
+      count: 0 ,
+      message: " No Events's Found",
+      data: []
     });
+
   } catch (error) {
-    return res.status(500).json({ error: 'Server error' });
+    return res.status(500).json({  
+       success: false,
+      count: 0 ,
+      message: " No Events's Found",
+      data: []
+     });
   }
 };
 
@@ -91,12 +136,7 @@ exports.getNearByEvents = async (req, res) => {
   // @access Public
   exports.getEventsByMasjidId = async (req, res) => {
     try {
-      const events = await Event.find({
-        masjidId: req.params.masjidId
-      }, {
-        createdAt: 0, updatedAt: 0, __v: 0,
-      });
-  
+      
       var ObjectID = require("mongodb").ObjectID
    
 
@@ -111,13 +151,20 @@ exports.getNearByEvents = async (req, res) => {
   
       }
 
+      const events = await Event.find({
+        masjidId: req.params.masjidId
+      }, {
+        createdAt: 0, updatedAt: 0, __v: 0,
+      });
+  
       
       if(events.length>0){
   
         return res.status(200).json({
           success: true,
-          count: events.length,
-          data: events,
+        count: events?.length ,
+        message: "Events's Found",
+        data:events,
       });
     }
     return res.status(200).json({
@@ -130,8 +177,9 @@ exports.getNearByEvents = async (req, res) => {
     } catch (error) {
       return res.status(500).json({
         success: false,
+        count:0,
+        message: 'Masjid Events Not Found'+ error.message ,
         data:[],
-         message: error.message 
         });
     }
   };
@@ -206,6 +254,24 @@ exports.deleteEvent = async (req, res) => {
 // @access Public
 exports.getEventById = async (req, res) => {
   try {
+   
+    var ObjectID = require("mongodb").ObjectID
+   
+   
+    if(!ObjectID.isValid(req.params.id)){
+     
+      console.log(req.params.id);
+      
+      return res.status(200).json({
+        success: false,
+        count: 0,
+        message: "The Provided Id is invalid",
+        data: []
+      });
+
+    }
+
+
     const event = await Event.findById(req.params.id, {
       createdAt: 0, updatedAt: 0, __v: 0,
     });
@@ -214,15 +280,17 @@ exports.getEventById = async (req, res) => {
 
       return res.status(200).json({
         success: true,
-        data: event,
-        message:"Found the Event Successfully"
+        count:event?.length,
+        message:"Found the Event Successfully",
+        data: event
       });
     }
     
     return res.status(200).json({
       success: false,
-      data: [],
-      message:"Couldn't Find the Event "
+      count:0,
+      message:"Couldn't Find the Event ",
+      data: []
     });
 
 
@@ -230,6 +298,7 @@ exports.getEventById = async (req, res) => {
   } catch (error) {
     return res.status(500).json({ 
       success: false,
+      count:0,
       message:"Couldn't Find the Event" + error.message,
       data:[]
     });
@@ -238,37 +307,39 @@ exports.getEventById = async (req, res) => {
 
 
 
-  // @desc get all the events of certain masjids.
-  // @route Post /api/v1/masjid/getNearByEvents
-  // @access Public
-  exports.getEventsByMasjidId = async (req, res) => {
-    try {
-      const events = await Event.find({
-        masjidId: req.params.masjidId
-      }, {
-        createdAt: 0, updatedAt: 0, __v: 0,
-      });
+  // // @desc get all the events of certain masjids.
+  // // @route Post /api/v1/masjid/getNearByEvents
+  // // @access Public
+  // exports.getEventsByMasjidId = async (req, res) => {
+  //   try {
+  //     const events = await Event.find({
+  //       masjidId: req.params.masjidId
+  //     }, {
+  //       createdAt: 0, updatedAt: 0, __v: 0,
+  //     });
   
-      if(events.length>0){
+  //     if(events.length>0){
   
-        return res.status(200).json({
-          success: true,
-          count: events.length,
-          data: events,
-      });
-    }
-    return res.status(200).json({
-      success: false,
-      count:0,
-      message: 'Masjid Events Not Found',
-      data:[]
-    });
+  //       return res.status(200).json({
+  //         success: true,
+  //         count:events?.length,
+  //         message:"Found the Event Successfully",
+  //         data: events
+  //     });
+  //   }
+  //   return res.status(200).json({
+  //     success: false,
+  //     count:0,
+  //     message: 'Masjid Events Not Found',
+  //     data:[]
+  //   });
   
-    } catch (error) {
-      return res.status(500).json({
-        success: false,
-        data:[],
-         message: error.message 
-        });
-    }
-  };
+  //   } catch (error) {
+  //     return res.status(500).json({
+  //       success: false,
+  //     count:0,
+  //     message:"Couldn't Find the Event" + error.message,
+  //     data:[]
+  //       });
+  //   }
+  // };

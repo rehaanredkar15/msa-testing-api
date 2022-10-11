@@ -9,7 +9,7 @@
         "url": "https://opensource.org/licenses/MIT"
       }
     },
-    "host": "msa-testing-app.herokuapp.com",
+    "host": "localhost:5500",
     "basePath": "/",
     "tags": [
       {
@@ -17,7 +17,7 @@
         "description": "API for client app in the system"
       }
     ],
-    "schemes": ["https"],
+    "schemes": ["http"],
     "consumes": ["application/json"],
     "produces": ["application/json"],
     "definitions": {
@@ -50,60 +50,162 @@
                         "type": "string",
                         "format": "url",
                         "example": "https://smile-app.s3.ap-south-1.amazonaws.com/image-1643616353651.jpeg"
-                    }
+                     },
+                     "//comment":  "The masjidPhotos can  be empty array also."
                     },
             
                     "masjidProfilePhoto":{
                     "type": "string",
                     "format": "url",
-                    "example": "https://smile-app.s3.ap-south-1.amazonaws.com/image-1643616353651.jpeg"
+                    "example": "https://smile-app.s3.ap-south-1.amazonaws.com/image-1643616353651.jpeg",
+                    "//comment":  "The masjidProfilePhoto can  be empty string also."
                    },
                     "description":{
                         "type": "string",
-                        "example": "Big, elaborate mosque made from stone & brick in the 1800s, featuring a courtyard pool with fish."
+                        "example": "Big, elaborate mosque made from stone & brick in the 1800s, featuring a courtyard pool with fish.",
+                        "//comment":  "The description can  be empty string also."
                     },
                     "address":{ 
                         "type": "string",
-                        "example": "Imamwada Road, Mumbai, Maharashtra"
+                        "example": "Imamwada Road, Mumbai, Maharashtra",
+                        "//comment":  "The array can  be empty string also."
                     },
                     "contact":{
                         "type": "string",
-                        "example": "+91 9168549326"  
+                        "example": "+91 9168549326",
+                        "//comment":  "The contact can  be empty string also."
                     },
                     "country":{
                         "type": "string",
-                        "example": "United States"
+                        "example": "United States",
+                        "//comment":  "The country can  be empty string also."
                     },
                     "lastEditor":{
                         "type": "string",
-                        "example": "Rehaan Redkar"
+                        "example": "Rehaan Redkar",
+                        "//comment":  "The last Editor can  be empty string also."
                     },
                     "updatedAt":{
                         "type": "string",
-                        "example": "2022-10-10T09:39:53.968Z"  
+                        "example": "2022-10-10T09:39:53.968Z" ,
+                        "//comment":  "The last Editor can  be empty string also." 
                     },
                     "id": {
                         "type": "string",
-                        "example": "6310bd9613877d3b6f6490e3"
+                        "example": "6310bd9613877d3b6f6490e3",
+                        "//comment":  "The id can  be empty string also."
                     },
                     "location":{
                         "properties":{
                             "type":{
                                 "type": "string",
                                 "default": "Point",
-                                "co-ordinates":{
+                                "coordinates":{
                                     "type": "array",
                                     "items":{
                                         "type": "integer",
                                         "format": "double",
-                                        "example": "[72.83336,18.95938]"
-                                    }
+                                        "example": "[72.83336,18.95938]",
+                                        "//comment":  "The first parameter here is longitude and second parameter is latitude."
+                                      }
                                     }
                                 }
+                        
                             }
                         }
                 }
           },
+            "Coordinates": {
+              "required": [
+                "coordinates"
+              ],
+              "properties": {
+                "coordinates": {
+                  "type": "array",
+                  "example":[
+                    -97.13392071108218,32.95635810891399
+                  ],
+                  "items": {
+                    "type": "integer",
+                    "format": "double",
+                    "//comment":  "The first parameter here is longitude and second parameter is latitude."
+                  }
+                  
+                },
+                "distance": {
+                  "type": "number",
+                  "example": 270
+                },
+                "distanceType": {
+                  "type": "string",
+                  "example": "Miles"
+                }
+              }
+            },
+            "EventCoordinates": {
+              "required": [
+                "coordinates"
+              ],
+              "properties": {
+                "coordinates": {
+                  "type": "array",
+                  "example":[
+                    74.90076445938857,31.633677821490206
+                  ],
+                  "items": {
+                    "type": "integer",
+                    "format": "double",
+                    "//comment":  "The first parameter here is longitude and second parameter is latitude."
+                  }
+                  
+                },
+                "distance": {
+                  "type": "number",
+                  "example": 270
+                },
+                "distanceType": {
+                  "type": "string",
+                  "example": "Miles"
+                }
+              }
+            },
+            "Masjid Ids": {
+              "required": [
+                "masjidIds"
+              ],
+              "properties": {
+                "masjidIds": {
+                  "type": "array",
+                  "example":[
+                    "6310bd9613877d3b6f6490e3",
+                    "634022b33e54e998540e06b0"
+                  ],
+                  "items": {
+                    "type": "string",
+                    "//comment":  "The parameters are masjid Ids."
+                  }
+                  
+                }
+              }
+            },
+            "Area Coordinates": {
+              "required": [
+                "coordinates"
+              ],
+              "properties": {
+                "coordinates": {
+                  "type": "array",
+                  "example":[
+                    -97.13392071108218,32.95635810891399
+                  ],
+                  "items": {
+                    "type": "integer",
+                    "format": "double",
+                    "//comment":  "The first parameter here is longitude and second parameter is latitude."
+                  }
+                }
+              }
+            },
             "Events": {
                 "required": [
                     "eventName",
@@ -127,7 +229,8 @@
                     },
                     "masjidName": {
                         "type": "string",
-                        "example": "Jumma Masjid"
+                        "example": "Jumma Masjid",
+                        "//comment":  "The masjid Name can  be empty string also."
                     },
                     "id": {
                         "type": "string",
@@ -135,7 +238,8 @@
                     },
                     "description": {
                         "type": "string",
-                        "example": "There will be iftari for all Rozadar's today."
+                        "example": "There will be iftari for all Rozadar's today.",
+                        "//comment":  "The description can  be empty string also."
                     },
                     "masjidId": {
                         "type": "string"
@@ -143,14 +247,16 @@
                     "eventProfilePhoto": {
                         "type": "string",
                         "format": "url",
-                        "example": "https://smile-app.s3.ap-south-1.amazonaws.com/image-1643616353651.jpeg"
+                        "example": "https://smile-app.s3.ap-south-1.amazonaws.com/image-1643616353651.jpeg",
+                        "//comment":  "The eventProfilePhoto can  be empty array also."
                     },
                     "eventPhotos": {
                         "type": "array",
                         "items": {
                             "type": "string",
                             "format": "url",
-                            "example": "https://smile-app.s3.ap-south-1.amazonaws.com/image-1643616353651.jpeg"
+                            "example": "https://smile-app.s3.ap-south-1.amazonaws.com/image-1643616353651.jpeg",
+                            "//comment":  "The eventPhotos can  be empty string also."
                         }
                     },
                     "timings": {
@@ -173,7 +279,8 @@
                                     "example": 1649671039
                                 }
                             }
-                        }
+                        },
+                        "//comment":  "The timings can be empty array."
                     },
                     "guests": {
                         "type": "array",
@@ -193,7 +300,8 @@
                                     "example": "63249649a039af62f4c2f178"
                                 }
                             }
-                        }
+                        },
+                       "//comment":  "The guests can  be empty array also."
                     },
                     "address": {
                         "type": "string",
@@ -206,12 +314,13 @@
                                 "type": "string",
                                 "default": "Point"
                             },
-                            "co-ordinates": {
+                            "coordinates": {
                                 "type": "array",
                                 "items": {
                                     "type": "integer",
                                     "format": "double",
-                                    "example": "72.83336,18.95938"
+                                    "example": "72.83336,18.95938",
+                                    "//comment":  "The location can  be empty array also."
                                 }
                             }
                         }
@@ -233,7 +342,8 @@
                         },
                         "lastEditor": {
                             "type": "string",
-                            "example": "Rehaan Redkar"
+                            "example": "Rehaan Redkar",
+                            "//comment":  "The last Editor can  be empty string also."
                         },
                         "timings": {
                             "type": "array",
@@ -255,7 +365,8 @@
                                         "example": 1649671039
                                     }
                                 }
-                            }
+                            }  ,
+                            "//comment":  "The timings can  be empty array also."
                         }
                     }
                 }
@@ -314,30 +425,15 @@
               "tags": [
                 "Masjid"
               ],
-              "description": "Get Masjid By Masjid co-ordinates",
+              "description": "Get Masjid By Masjid coordinates",
               "parameters": [
                 {
-                   "name": "co-ordinates",
+                   "name": "coordinates",
                    "in": "body",
-                   "description": "Co-ordinates of the masjid",
-                  "schema": {
-                    "co-ordinates": {
-                        "type": "array",
-                        "items": {
-                            "type": "integer",
-                            "format": "double",
-                            "example": "72.83336,18.95938"
-                        }
-                    },
-                    "distance":{
-                        "type":"integer",
-                        "example":"0.50"
-                    },
-                    "distanceType":{
-                        "type":"string",
-                        "example":"Miles"
-                    }
-                  }
+                   "description": "Coordinates of the masjid",
+                    "schema": {
+                      "$ref": "#/definitions/Coordinates"
+                   }
                 }
               ],
               "produces": [
@@ -361,27 +457,12 @@
               "description": "Getting the area masjid",
               "parameters": [
                 {
-                  "name": "co-ordinates",
-                  "in": "body",
-                  "description": "co-ordinates of the masjid",
-                  "schema": {
-                    "co-ordinates": {
-                        "type": "array",
-                        "items": {
-                            "type": "integer",
-                            "format": "double",
-                            "example": "72.83336,18.95938"
-                        }
-                    },
-                    "distance":{
-                        "type":"integer",
-                        "example":"0.50"
-                    },
-                    "distanceType":{
-                        "type":"string",
-                        "example":"Miles"
-                    }
-                  }
+                   "name": "coordinates",
+                   "in": "body",
+                   "description": "Coordinates of the masjid",
+                    "schema": {
+                      "$ref": "#/definitions/Area Coordinates"
+                   }
                 }
               ],
               "produces": [
@@ -434,11 +515,12 @@
               "description": "Get Masjid By Masjid Name",
               "parameters": [
                 {
-                  "name": "masjidName",
+                  "name": "id",
                   "in": "path",
                   "description": "Masjid Name which you are looking for",
                   "schema": {
-                    "type": "String"
+                    "type": "String",
+                    "example":"6310bd9613877d3b6f6490e3"
                   }
                 }
               ],
@@ -454,7 +536,7 @@
                 }
               }
             } 
-          },"v1/events/getEventsByMasjid": {
+          },"/v1/events/getEventsByMasjid": {
             "post": {
               "tags": [
                 "Events"
@@ -466,13 +548,7 @@
                   "in": "body",
                   "description": "Ids of the masjid which events are expected",
                   "schema": {
-                    "masjidId": {
-                        "type": "array",
-                        "items": {
-                            "type": "string",
-                            "example": "[6310bd9613877d3b6f6490e3]"
-                        }
-                    }
+                    "$ref": "#/definitions/Masjid Ids"
                   }
                 }
               ],
@@ -488,34 +564,19 @@
                 }
               }
             } 
-          },"v1/events/getNearByEvents": {
+          },"/v1/events/getNearByEvents": {
             "post": {
               "tags": [
                 "Events"
               ],
-              "description": "Get Events By Masjid co-ordinates",
+              "description": "Get Events By Masjid coordinates",
               "parameters": [
                 {
-                   "name": "co-ordinates",
-                   "in": "body",
-                   "description": "Co-ordinates of the masjid",
-                  "schema": {
-                    "co-ordinates": {
-                        "type": "array",
-                        "items": {
-                            "type": "integer",
-                            "format": "double",
-                            "example": "72.83336,18.95938"
-                        }
-                    },
-                    "distance":{
-                        "type":"integer",
-                        "example":"0.50"
-                    },
-                    "distanceType":{
-                        "type":"string",
-                        "example":"Miles"
-                    }
+                  "name": "coordinates",
+                  "in": "body",
+                  "description": "Coordinates of the masjid",
+                   "schema": {
+                     "$ref": "#/definitions/EventCoordinates"
                   }
                 }
               ],
@@ -532,7 +593,7 @@
               }
             } 
           },
-          "v1/events/getEventById/{id}": {
+          "/v1/events/getEventById/{id}": {
             "get": {
               "tags": [
                 "Events"
@@ -540,11 +601,12 @@
               "description": "Get Events By Event Id",
               "parameters": [
                 {
-                  "name": "EventId",
+                  "name": "id",
                   "in": "path",
                   "description": "Event Id which you are looking for",
                   "schema": {
-                    "type": "String"
+                    "type": "String",
+                    "example":"63249649a039af62f4c2f177"
                   }
                 }
               ],
@@ -561,7 +623,7 @@
               }
             } 
           },
-          "v1/events/getEventsByMasjidId/{masjidId}": {
+          "/v1/events/getEventsByMasjidId/{masjidId}": {
             "get": {
               "tags": [
                 "Events"
@@ -573,7 +635,8 @@
                   "in": "path",
                   "description": "Masjid Id which events you are looking for",
                   "schema": {
-                    "type": "String"
+                    "type": "String",
+                    "example":"6310bd9613877d3b6f6490e3"
                   }
                 }
               ],
@@ -589,7 +652,7 @@
                 }
               }
             } 
-          },"v1/timings/getTimingByMasjid/{masjidId}": {
+          },"/v1/timings/getTimingByMasjid/{masjidId}": {
             "get": {
               "tags": [
                 "Timings"
@@ -601,7 +664,8 @@
                   "in": "path",
                   "description": "Masjid Id which timings you are looking for",
                   "schema": {
-                    "type": "String"
+                    "type": "String",
+                    "example":"6310bd9613877d3b6f6490e3"
                   }
                 }
               ],
@@ -617,7 +681,7 @@
                 }
               }
             } 
-          },"v1/timings/getTimingById/{timingId}": {
+          },"/v1/timings/getTimingById/{timingId}": {
             "get": {
               "tags": [
                 "Timings"
@@ -629,7 +693,8 @@
                   "in": "path",
                   "description": "Timing Id which timings you are looking for",
                   "schema": {
-                    "type": "String"
+                    "type": "String",
+                    "example":"6343e862da330d073f9e5902"
                   }
                 }
               ],
@@ -645,7 +710,7 @@
                 }
               }
             } 
-          },"v1/timings/getTimingByDate/{masjidId}": {
+          },"/v1/timings/getTimingByDate/{masjidId}": {
             "get": {
               "tags": [
                 "Timings"
@@ -657,7 +722,17 @@
                   "in": "query",
                   "description": "Date on  which timings you are looking for",
                   "schema": {
-                    "type": "date"
+                    "type": "date",
+                    "example":"2022-10-01"
+                  }
+                },
+                {
+                  "name": "masjidId",
+                  "in": "path",
+                  "description": "Timing Id which timings you are looking for",
+                  "schema": {
+                    "type": "String",
+                    "example":"6310bd9613877d3b6f6490e3"
                   }
                 }
               ],
@@ -673,7 +748,7 @@
                 }
               }
             } 
-          },"v1/timings/getTimingByStartRange/{masjidId}": {
+          },"/v1/timings/getTimingByStartRange/{masjidId}": {
             "get": {
               "tags": [
                 "Timings"
@@ -681,11 +756,21 @@
               "description": "Get Timings from a certain date",
               "parameters": [
                 {
-                  "name": "date",
+                  "name": "startDate",
                   "in": "query",
                   "description": "Date from  which timings you are looking for",
                   "schema": {
-                    "type": "date"
+                    "type": "date",
+                    "example":"2022-10-01"
+                  }
+                },
+                {
+                  "name": "masjidId",
+                  "in": "path",
+                  "description": "Timing Id which timings you are looking for",
+                  "schema": {
+                    "type": "String",
+                    "example":"6310bd9613877d3b6f6490e3"
                   }
                 }
               ],
@@ -702,7 +787,7 @@
               }
             } 
           },
-          "v1/timings/getTimingByDateRange/{masjidId}": {
+          "/v1/timings/getTimingByDateRange/{masjidId}": {
             "get": {
               "tags": [
                 "Timings"
@@ -710,11 +795,30 @@
               "description": "Get Timings from a certain date",
               "parameters": [
                 {
-                  "name": "date",
+                  "name": "startDate",
                   "in": "query",
                   "description": "Date from  which timings you are looking for",
                   "schema": {
-                    "type": "date"
+                    "type": "date",
+                    "example":"2022-10-01"
+                  }
+                },
+                {
+                  "name": "endDate",
+                  "in": "query",
+                  "description": "Date till  which timings you are looking for",
+                  "schema": {
+                    "type": "date",
+                    "example":"2022-10-10"
+                  }
+                },
+                {
+                  "name": "masjidId",
+                  "in": "path",
+                  "description": "Timing Id which timings you are looking for",
+                  "schema": {
+                    "type": "String",
+                    "example":"6310bd9613877d3b6f6490e3"
                   }
                 }
               ],
