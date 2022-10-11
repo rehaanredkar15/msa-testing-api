@@ -49,8 +49,8 @@ exports.getNearByEvents = async (req, res) => {
   try {
     const distance = req.body.distanceType === 'Miles'
       ? req.body.distance * 1609 : req.body.distance * 1000;
-    coordinates.push(req.body.coordinates[1]);
     coordinates.push(req.body.coordinates[0]);
+    coordinates.push(req.body.coordinates[1]);
 
     const events = await Event.find({
       location:

@@ -74,8 +74,9 @@ exports.getNearMasjid = async (req, res) => {
   try {
     const distance = req.body.distanceType === 'Miles'
       ? req.body.distance * 1609 : req.body.distance * 1000;
-    coordinates.push(req.body.coordinates[1]);
+
     coordinates.push(req.body.coordinates[0]);
+    coordinates.push(req.body.coordinates[1]);
 
     const masjid = await Masjid.find({
       location:
@@ -115,6 +116,7 @@ exports.getNearMasjid = async (req, res) => {
 // @access Public
 exports.getAreaMasjids = async (req, res) => {
   try {
+    
     const masjid = await Masjid.find({
       location:
                 {

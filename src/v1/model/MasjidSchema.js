@@ -16,7 +16,7 @@ const MasjidSchema = new Schema(
     masjidProfilePhoto:{
       type: String,
     },
-    desc: {
+    description: {
       type: String,
     },
     country: {

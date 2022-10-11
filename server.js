@@ -9,6 +9,11 @@ const mongoSanitize = require('express-mongo-sanitize');
 const router = require('./src/v1/router');
 const DBConnect = require('./database/DBConnect');
 const { verifyFCMToken } = require('./middleware/authMiddleware');
+const swaggerUi = require('swagger-ui-express');
+
+
+swaggerDocument = require('./swagger.json');
+
 // const { signAdminAccessToken, signAdminRefreshToken } = require('./helpers/jwt_helper');
 const {
   headerFunction,
@@ -67,6 +72,10 @@ app.use(errHandler);
 //     },
 //   });
 // });
+
+//swagger ui
+app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
+
 
 // api working check
 app.get('/', async (req, res) => {

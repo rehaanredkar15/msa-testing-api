@@ -1,0 +1,735 @@
+{
+    "swagger": "2.0",
+    "info": {
+      "version": "1.0.0",
+      "title": "Connect Masjid Client API ",
+      "description": "This docs contains the connect masjid client api",
+      "license": {
+        "name": "MIT",
+        "url": "https://opensource.org/licenses/MIT"
+      }
+    },
+    "host": "localhost:5500",
+    "basePath": "/",
+    "tags": [
+      {
+        "name": "Client App",
+        "description": "API for client app in the system"
+      }
+    ],
+    "schemes": ["http"],
+    "consumes": ["application/json"],
+    "produces": ["application/json"],
+    "definitions": {
+
+        "Masjid":{
+            "required":[
+                "masjidName",
+                "masjidPhotos",
+                "description",
+                "contact",
+                "location",
+                "address",
+                "id",
+                "updatedAt",
+                "lastEditor",
+                "country"
+            ],
+            "properties":{
+
+                "masjidName":{
+                    "type": "string",
+                    "description": "Name should be unique and will trim spaces which are after the name. ",
+                    "minLength": 5,   
+                    "maxLength": 20,
+                    "example": "Jumma Masjid"
+                  },
+                "masjidPhotos":{
+                    "type": "array",
+                    "items":{
+                        "type": "string",
+                        "format": "url",
+                        "example": "https://smile-app.s3.ap-south-1.amazonaws.com/image-1643616353651.jpeg"
+                    }
+                    },
+            
+                    "masjidProfilePhoto":{
+                    "type": "string",
+                    "format": "url",
+                    "example": "https://smile-app.s3.ap-south-1.amazonaws.com/image-1643616353651.jpeg"
+                   },
+                    "description":{
+                        "type": "string",
+                        "example": "Big, elaborate mosque made from stone & brick in the 1800s, featuring a courtyard pool with fish."
+                    },
+                    "address":{ 
+                        "type": "string",
+                        "example": "Imamwada Road, Mumbai, Maharashtra"
+                    },
+                    "contact":{
+                        "type": "string",
+                        "example": "+91 9168549326"  
+                    },
+                    "country":{
+                        "type": "string",
+                        "example": "United States"
+                    },
+                    "lastEditor":{
+                        "type": "string",
+                        "example": "Rehaan Redkar"
+                    },
+                    "updatedAt":{
+                        "type": "string",
+                        "example": "2022-10-10T09:39:53.968Z"  
+                    },
+                    "id": {
+                        "type": "string",
+                        "example": "6310bd9613877d3b6f6490e3"
+                    },
+                    "location":{
+                        "properties":{
+                            "type":{
+                                "type": "string",
+                                "default": "Point",
+                                "co-ordinates":{
+                                    "type": "array",
+                                    "items":{
+                                        "type": "integer",
+                                        "format": "double",
+                                        "example": "[72.83336,18.95938]"
+                                    }
+                                    }
+                                }
+                            }
+                        }
+                }
+          },
+            "Events": {
+                "required": [
+                    "eventName",
+                    "masjidId",
+                    "masjidName",
+                    "description",
+                    "eventProfilePhoto",
+                    "eventPhotos",
+                    "timings",
+                    "guest",
+                    "id",
+                    "location",
+                    "address"
+                ],
+                "properties": {
+                    "eventName": {
+                        "type": "string",
+                        "minimum": 5,
+                        "maximum": 40,
+                        "example": "Iftari"
+                    },
+                    "masjidName": {
+                        "type": "string",
+                        "example": "Jumma Masjid"
+                    },
+                    "id": {
+                        "type": "string",
+                        "example": "6310bd9613877d3b6f6490e3"
+                    },
+                    "description": {
+                        "type": "string",
+                        "example": "There will be iftari for all Rozadar's today."
+                    },
+                    "masjidId": {
+                        "type": "string"
+                    },
+                    "eventProfilePhoto": {
+                        "type": "string",
+                        "format": "url",
+                        "example": "https://smile-app.s3.ap-south-1.amazonaws.com/image-1643616353651.jpeg"
+                    },
+                    "eventPhotos": {
+                        "type": "array",
+                        "items": {
+                            "type": "string",
+                            "format": "url",
+                            "example": "https://smile-app.s3.ap-south-1.amazonaws.com/image-1643616353651.jpeg"
+                        }
+                    },
+                    "timings": {
+                        "type": "array",
+                        "items": {
+                            "type": "object",
+                            "properties": {
+                                "date": {
+                                    "type": "string",
+                                    "example": "2022-09-16T00:00:00.000Z"
+                                },
+                                "startTime": {
+                                    "type": "integer",
+                                    "format": "int64",
+                                    "example": 1649671039
+                                },
+                                "endTime": {
+                                    "type": "integer",
+                                    "format": "int64",
+                                    "example": 1649671039
+                                }
+                            }
+                        }
+                    },
+                    "guests": {
+                        "type": "array",
+                        "items": {
+                            "type": "object",
+                            "properties": {
+                                "guestName": {
+                                    "type": "string",
+                                    "example": "Maulana"
+                                },
+                                "guestDesc": {
+                                    "type": "string",
+                                    "example": "great maulana"
+                                },
+                                "_id": {
+                                    "type": "string",
+                                    "example": "63249649a039af62f4c2f178"
+                                }
+                            }
+                        }
+                    },
+                    "address": {
+                        "type": "string",
+                        "example": "Maulana Azad Rd, Madanpura, Mumbai, Maharashtra"
+                    },
+                    "location": {
+                        "type": "object",
+                        "properties": {
+                            "type": {
+                                "type": "string",
+                                "default": "Point"
+                            },
+                            "co-ordinates": {
+                                "type": "array",
+                                "items": {
+                                    "type": "integer",
+                                    "format": "double",
+                                    "example": "72.83336,18.95938"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+               "Timings": {
+                    "required": [
+                        "date",
+                        "timings",
+                        "id",
+                        "last Editor"
+                    ],
+                    "type": "object",
+                    "properties": {
+                        "date": {
+                            "type": "string",
+                            "example": "2022-04-22T00:00:00.000Z"
+                        },
+                        "lastEditor": {
+                            "type": "string",
+                            "example": "Rehaan Redkar"
+                        },
+                        "timings": {
+                            "type": "array",
+                            "items": {
+                                "type": "object",
+                                "properties": {
+                                    "namazName": {
+                                        "type": "string",
+                                        "example": "Fajr"
+                                    },
+                                    "jamaatTime": {
+                                        "type": "integer",
+                                        "format": "int64",
+                                        "example": 1649671039
+                                    },
+                                    "azaanTime": {
+                                        "type": "integer",
+                                        "format": "int64",
+                                        "example": 1649671039
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+    },
+    "paths":{
+        "/v1/masjid/getMasjid/{masjidName}": {
+            "get": {
+              "tags": [
+                "Masjid"
+              ],
+              "description": "Get Masjid By Masjid Name",
+              "parameters": [
+                {
+                  "name": "masjidName",
+                  "in": "path",
+                  "description": "Masjid Name which you are looking for",
+                  "schema": {
+                    "type": "String"
+                  }
+                }
+              ],
+              "produces": [
+                "application/json"
+              ],
+              "responses": {
+                "200": {
+                  "description": "Masjid which are found",
+                  "schema": {
+                    "$ref": "#/definitions/Masjid"
+                  }
+                }
+              }
+            } 
+          },
+          "/v1/masjid/getAllMasjid": {
+            "get": {
+              "tags": [
+                "Masjid"
+              ],
+              "description": "Get All Masjid From The Database",
+              "produces": [
+                "application/json"
+              ],
+              "responses": {
+                "200": {
+                  "description": "Masjid which are found",
+                  "schema": {
+                    "$ref": "#/definitions/Masjid"
+                  }
+                }
+              }
+            } 
+          },
+          "/v1/masjid/getNearMasjids": {
+            "post": {
+              "tags": [
+                "Masjid"
+              ],
+              "description": "Get Masjid By Masjid co-ordinates",
+              "parameters": [
+                {
+                   "name": "co-ordinates",
+                   "in": "body",
+                   "description": "Co-ordinates of the masjid",
+                  "schema": {
+                    "co-ordinates": {
+                        "type": "array",
+                        "items": {
+                            "type": "integer",
+                            "format": "double",
+                            "example": "72.83336,18.95938"
+                        }
+                    },
+                    "distance":{
+                        "type":"integer",
+                        "example":"0.50"
+                    },
+                    "distanceType":{
+                        "type":"string",
+                        "example":"Miles"
+                    }
+                  }
+                }
+              ],
+              "produces": [
+                "application/json"
+              ],
+              "responses": {
+                "200": {
+                  "description": "New Masjid is created",
+                  "schema": {
+                    "$ref": "#/definitions/Masjid"
+                  }
+                }
+              }
+            } 
+          },
+          "/v1/masjid/getAreaMasjids": {
+            "post": {
+              "tags": [
+                "Masjid"
+              ],
+              "description": "Getting the area masjid",
+              "parameters": [
+                {
+                  "name": "co-ordinates",
+                  "in": "body",
+                  "description": "co-ordinates of the masjid",
+                  "schema": {
+                    "co-ordinates": {
+                        "type": "array",
+                        "items": {
+                            "type": "integer",
+                            "format": "double",
+                            "example": "72.83336,18.95938"
+                        }
+                    },
+                    "distance":{
+                        "type":"integer",
+                        "example":"0.50"
+                    },
+                    "distanceType":{
+                        "type":"string",
+                        "example":"Miles"
+                    }
+                  }
+                }
+              ],
+              "produces": [
+                "application/json"
+              ],
+              "responses": {
+                "200": {
+                  "description": "masjid around me",
+                  "schema": {
+                    "$ref": "#/definitions/Masjid"
+                  }
+                }
+              }
+            } 
+          },
+          "/v1/masjid/getMasjidByAreaSearch/{areaName}": {
+            "get": {
+              "tags": [
+                "Masjid"
+              ],
+              "description": "Get Masjid By area name",
+              "parameters": [
+                {
+                  "name": "areaName",
+                  "in": "path",
+                  "description": "Area name in which you are looking for masjid",
+                  "schema": {
+                    "type": "String"
+                  }
+                }
+              ],
+              "produces": [
+                "application/json"
+              ],
+              "responses": {
+                "200": {
+                  "description": "Masjid in the area",
+                  "schema": {
+                    "$ref": "#/definitions/Masjid"
+                  }
+                }
+              }
+            } 
+          },
+          "/v1/masjid/getMasjidById/{id}": {
+            "get": {
+              "tags": [
+                "Masjid"
+              ],
+              "description": "Get Masjid By Masjid Name",
+              "parameters": [
+                {
+                  "name": "masjidName",
+                  "in": "path",
+                  "description": "Masjid Name which you are looking for",
+                  "schema": {
+                    "type": "String"
+                  }
+                }
+              ],
+              "produces": [
+                "application/json"
+              ],
+              "responses": {
+                "200": {
+                  "description": "Masjid which are found",
+                  "schema": {
+                    "$ref": "#/definitions/Masjid"
+                  }
+                }
+              }
+            } 
+          },"v1/events/getEventsByMasjid": {
+            "post": {
+              "tags": [
+                "Events"
+              ],
+              "description": "Getting the events by masjid Id",
+              "parameters": [
+                {
+                  "name": "MasjidIds",
+                  "in": "body",
+                  "description": "Ids of the masjid which events are expected",
+                  "schema": {
+                    "masjidId": {
+                        "type": "array",
+                        "items": {
+                            "type": "string",
+                            "example": "[6310bd9613877d3b6f6490e3]"
+                        }
+                    }
+                  }
+                }
+              ],
+              "produces": [
+                "application/json"
+              ],
+              "responses": {
+                "200": {
+                  "description": "masjid around me",
+                  "schema": {
+                    "$ref": "#/definitions/Events"
+                  }
+                }
+              }
+            } 
+          },"v1/events/getNearByEvents": {
+            "post": {
+              "tags": [
+                "Events"
+              ],
+              "description": "Get Events By Masjid co-ordinates",
+              "parameters": [
+                {
+                   "name": "co-ordinates",
+                   "in": "body",
+                   "description": "Co-ordinates of the masjid",
+                  "schema": {
+                    "co-ordinates": {
+                        "type": "array",
+                        "items": {
+                            "type": "integer",
+                            "format": "double",
+                            "example": "72.83336,18.95938"
+                        }
+                    },
+                    "distance":{
+                        "type":"integer",
+                        "example":"0.50"
+                    },
+                    "distanceType":{
+                        "type":"string",
+                        "example":"Miles"
+                    }
+                  }
+                }
+              ],
+              "produces": [
+                "application/json"
+              ],
+              "responses": {
+                "200": {
+                  "description": "New Masjid is created",
+                  "schema": {
+                    "$ref": "#/definitions/Events"
+                  }
+                }
+              }
+            } 
+          },
+          "v1/events/getEventById/{id}": {
+            "get": {
+              "tags": [
+                "Events"
+              ],
+              "description": "Get Events By Event Id",
+              "parameters": [
+                {
+                  "name": "EventId",
+                  "in": "path",
+                  "description": "Event Id which you are looking for",
+                  "schema": {
+                    "type": "String"
+                  }
+                }
+              ],
+              "produces": [
+                "application/json"
+              ],
+              "responses": {
+                "200": {
+                  "description": "Event which are found",
+                  "schema": {
+                    "$ref": "#/definitions/Events"
+                  }
+                }
+              }
+            } 
+          },
+          "v1/events/getEventsByMasjidId/{masjidId}": {
+            "get": {
+              "tags": [
+                "Events"
+              ],
+              "description": "Get Events By Masjid Id",
+              "parameters": [
+                {
+                  "name": "masjidId",
+                  "in": "path",
+                  "description": "Masjid Id which events you are looking for",
+                  "schema": {
+                    "type": "String"
+                  }
+                }
+              ],
+              "produces": [
+                "application/json"
+              ],
+              "responses": {
+                "200": {
+                  "description": "Event which are found",
+                  "schema": {
+                    "$ref": "#/definitions/Events"
+                  }
+                }
+              }
+            } 
+          },"v1/timings/getTimingByMasjid/{masjidId}": {
+            "get": {
+              "tags": [
+                "Timings"
+              ],
+              "description": "Get Timings By Masjid Id",
+              "parameters": [
+                {
+                  "name": "masjidId",
+                  "in": "path",
+                  "description": "Masjid Id which timings you are looking for",
+                  "schema": {
+                    "type": "String"
+                  }
+                }
+              ],
+              "produces": [
+                "application/json"
+              ],
+              "responses": {
+                "200": {
+                  "description": "Timing which are found",
+                  "schema": {
+                    "$ref": "#/definitions/Timings"
+                  }
+                }
+              }
+            } 
+          },"v1/timings/getTimingById/{timingId}": {
+            "get": {
+              "tags": [
+                "Timings"
+              ],
+              "description": "Get Timings By Timing Id",
+              "parameters": [
+                {
+                  "name": "timingId",
+                  "in": "path",
+                  "description": "Timing Id which timings you are looking for",
+                  "schema": {
+                    "type": "String"
+                  }
+                }
+              ],
+              "produces": [
+                "application/json"
+              ],
+              "responses": {
+                "200": {
+                  "description": "Timing which are found",
+                  "schema": {
+                    "$ref": "#/definitions/Timings"
+                  }
+                }
+              }
+            } 
+          },"v1/timings/getTimingByDate/{masjidId}": {
+            "get": {
+              "tags": [
+                "Timings"
+              ],
+              "description": "Get Timings By a certain date",
+              "parameters": [
+                {
+                  "name": "date",
+                  "in": "query",
+                  "description": "Date on  which timings you are looking for",
+                  "schema": {
+                    "type": "date"
+                  }
+                }
+              ],
+              "produces": [
+                "application/json"
+              ],
+              "responses": {
+                "200": {
+                  "description": "Timing which are found",
+                  "schema": {
+                    "$ref": "#/definitions/Timings"
+                  }
+                }
+              }
+            } 
+          },"v1/timings/getTimingByStartRange/{masjidId}": {
+            "get": {
+              "tags": [
+                "Timings"
+              ],
+              "description": "Get Timings from a certain date",
+              "parameters": [
+                {
+                  "name": "date",
+                  "in": "query",
+                  "description": "Date from  which timings you are looking for",
+                  "schema": {
+                    "type": "date"
+                  }
+                }
+              ],
+              "produces": [
+                "application/json"
+              ],
+              "responses": {
+                "200": {
+                  "description": "Timing which are found",
+                  "schema": {
+                    "$ref": "#/definitions/Timings"
+                  }
+                }
+              }
+            } 
+          },
+          "v1/timings/getTimingByDateRange/{masjidId}": {
+            "get": {
+              "tags": [
+                "Timings"
+              ],
+              "description": "Get Timings from a certain date",
+              "parameters": [
+                {
+                  "name": "date",
+                  "in": "query",
+                  "description": "Date from  which timings you are looking for",
+                  "schema": {
+                    "type": "date"
+                  }
+                }
+              ],
+              "produces": [
+                "application/json"
+              ],
+              "responses": {
+                "200": {
+                  "description": "Timing which are found",
+                  "schema": {
+                    "$ref": "#/definitions/Timings"
+                  }
+                }
+              }
+            } 
+          }
+    } 
+  }
