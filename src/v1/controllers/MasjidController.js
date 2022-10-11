@@ -12,7 +12,7 @@ exports.getAllMasjid = async (req, res) => {
 
     return res.status(200).json({
       success: true,
-      count:data.length,
+      count:data?.length,
       message:"Masjid Found",
       data:data
     });
@@ -31,6 +31,16 @@ exports.getAllMasjid = async (req, res) => {
 // @access Public
 exports.getMasjid = async (req, res) => {
   try {
+   
+    if(!req.params.masjidName){
+      return res.status(200).json({
+        success: false,
+        count: 0,
+        message: "Add masjidName to the request please",
+        data: []
+      });
+    }
+
     const regex = new RegExp(req.params.masjidName, 'i');
 
     const masjids = await Masjid.find({ $or: [{ masjidName: regex }, { address: regex }] }, {
@@ -40,7 +50,7 @@ exports.getMasjid = async (req, res) => {
     if (masjids.length > 0) {
       return res.status(200).json({
         success: true,
-        count: masjids.length,
+        count: masjids?.length,
         message:"Masjid Found",
         data: masjids
       });
@@ -67,20 +77,58 @@ exports.getMasjid = async (req, res) => {
 // @access Public
 exports.getMasjidById = async (req, res) => {
   try {
+
+    if(!req.params.id){
+      return res.status(200).json({
+        success: false,
+        count: 0,
+        message: "Add Id to the request please",
+        data: []
+      });
+    }
+
+    var ObjectID = require("mongodb").ObjectID
+   
+
+    if(!ObjectID.isValid(req.params.id)){
+
+      return res.status(200).json({
+        success: false,
+        count: 0,
+        message: "The Provided Id is invalid",
+        data: []
+      });
+
+    }
+
     const masjid = await Masjid.findById(req.params.id, {
       createdAt: 0, updatedAt: 0, __v: 0,
     });
-    return res.status(200).json({
-      success: true,
-      count: masjids.length,
+    if(masjid){
+
+      return res.status(200).json({
+        success: true,
+      count: masjid?.length,
       message:"Masjid Found",
       data: masjid
     });
+   }
+    else{
+
+      return res.status(200).json({
+        success: false,
+        count: 0,
+        message: "No Masjid Found for the given Id",
+        data: []
+      });
+    }
+      
   } catch (error) {
+    
     return res.status(500).json({
        success: false,
       count: 0 ,
-      message: " No Masjid's Found" + error.message,
+      message: " No Masjid's Found" + error?.message,
       data: []
     
     });
@@ -95,6 +143,14 @@ exports.getNearMasjid = async (req, res) => {
   const coordinates = [];
 
   try {
+    if(!req.body.coordinates){
+      return res.status(200).json({
+        success: false,
+        count: 0,
+        message: "Add coordinates to the request please",
+        data: []
+      });
+    }
     const distance = req.body.distanceType === 'Miles'
       ? req.body.distance * 1609 : req.body.distance * 1000;
 
@@ -121,7 +177,7 @@ exports.getNearMasjid = async (req, res) => {
     if (masjid.length > 0) {
       return res.status(200).json({
         success: true,
-        count: masjid.length,
+        count: masjid?.length,
         message:"Masjids Found",
         data: masjid
       });
@@ -149,6 +205,14 @@ exports.getNearMasjid = async (req, res) => {
 exports.getAreaMasjids = async (req, res) => {
   try {
     
+    if(!req.body.coordinates){
+      return res.status(200).json({
+        success: false,
+        count: 0,
+        message: "Add coordinates to the request please",
+        data: []
+      });
+    }
     const masjid = await Masjid.find({
       location:
                 {
@@ -164,11 +228,12 @@ exports.getAreaMasjids = async (req, res) => {
     }, {
       createdAt: 0, updatedAt: 0, __v: 0,
     });
-
+    
+  
     if (masjid.length > 0) {
       return res.status(200).json({
         success: true,
-        count: masjid.length,
+        count: masjid?.length,
         message: "Masjid's Found",
         data: masjid
       });
@@ -208,7 +273,7 @@ exports.getMasjidByAreaSearch = async (req, res) => {
     if (masjids.length > 0) {
       return res.status(200).json({
         success: true,
-        count: masjids.length,
+        count: masjids?.length,
         message:"Masjid Found",
         data: masjids
       });

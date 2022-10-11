@@ -85,6 +85,57 @@ exports.getNearByEvents = async (req, res) => {
   }
 };
 
+
+  // @desc get all the events of certain masjids.
+  // @route Post /api/v1/masjid/getNearByEvents
+  // @access Public
+  exports.getEventsByMasjidId = async (req, res) => {
+    try {
+      const events = await Event.find({
+        masjidId: req.params.masjidId
+      }, {
+        createdAt: 0, updatedAt: 0, __v: 0,
+      });
+  
+      var ObjectID = require("mongodb").ObjectID
+   
+
+      if(!ObjectID.isValid(req.params.masjidId)){
+  
+        return res.status(200).json({
+          success: false,
+          count: 0,
+          message: "The Provided Id is invalid",
+          data: []
+        });
+  
+      }
+
+      
+      if(events.length>0){
+  
+        return res.status(200).json({
+          success: true,
+          count: events.length,
+          data: events,
+      });
+    }
+    return res.status(200).json({
+      success: false,
+      count:0,
+      message: 'Masjid Events Not Found',
+      data:[]
+    });
+  
+    } catch (error) {
+      return res.status(500).json({
+        success: false,
+        data:[],
+         message: error.message 
+        });
+    }
+  };
+
 // @desc Create a event
 // @route POST  /api/v1/event/addEvent
 // @access Public
