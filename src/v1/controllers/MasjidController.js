@@ -12,11 +12,17 @@ exports.getAllMasjid = async (req, res) => {
 
     return res.status(200).json({
       success: true,
-      // count:data.length,
-      data,
+      count:data.length,
+      message:"Masjid Found",
+      data:data
     });
   } catch (error) {
-    return res.status(500).json({ error: error.message });
+    return res.status(500).json({ 
+      success: false,
+      count: 0 ,
+      message: " No Masjid's Found" + error.message ,
+      data: []
+     });
   }
 };
 
@@ -35,16 +41,24 @@ exports.getMasjid = async (req, res) => {
       return res.status(200).json({
         success: true,
         count: masjids.length,
-        data: masjids,
+        message:"Masjid Found",
+        data: masjids
       });
     }
 
-    return res.status(404).json({
+    return res.status(200).json({
       success: false,
-      message: 'Not Found',
+      count: 0 ,
+      message: " No Masjid's Found",
+      data: []
     });
   } catch (error) {
-    return res.status(500).json({ error: error.message });
+    return res.status(500).json({ 
+       success: false,
+      count: 0 ,
+      message: " No Masjid's Found" + error.message ,
+      data: []
+     });
   }
 };
 
@@ -58,10 +72,19 @@ exports.getMasjidById = async (req, res) => {
     });
     return res.status(200).json({
       success: true,
-      data: masjid,
+      count: masjids.length,
+      message:"Masjid Found",
+      data: masjid
     });
   } catch (error) {
-    return res.status(500).json({ error: error.message });
+    return res.status(500).json({
+       success: false,
+      count: 0 ,
+      message: " No Masjid's Found" + error.message,
+      data: []
+    
+    });
+
   }
 };
 
@@ -99,15 +122,24 @@ exports.getNearMasjid = async (req, res) => {
       return res.status(200).json({
         success: true,
         count: masjid.length,
-        data: masjid,
+        message:"Masjids Found",
+        data: masjid
       });
     }
-    return res.status(404).json({
+    return res.status(200).json({
       success: false,
+      count: 0 ,
       message: " No Masjid's Found,try increasing the search distance",
+      data: []
     });
   } catch (error) {
-    return res.status(501).json({ error: error.message });
+    return res.status(501).json({  
+      success: false,
+      count: 0 ,
+      message: " No Masjid's Found" ,
+      data: []
+    
+    });
   }
 };
 
@@ -137,23 +169,28 @@ exports.getAreaMasjids = async (req, res) => {
       return res.status(200).json({
         success: true,
         count: masjid.length,
-        data: masjid,
+        message: "Masjid's Found",
+        data: masjid
       });
     }
 
-    return res.status(404).json({
+    return res.status(200).json({
       success: false,
+      count: 0,
       message: " No Masjid's Found",
+      data: []
     });
   } catch (error) {
-    if (error.code === 11000) {
-      return res.status(501).json({ error: 'This Masjid already exists' });
-    }
-
+    
     if (error.isJoi === true) {
       return res.status(422).json({ error: "The details doesn't match the pattern,Please check and try again" });
     }
-    return res.status(501).json({ error: error.message });
+    return res.status(501).json({ 
+      success: false,
+      count: 0 ,
+      message: " No Masjid's Found" + error.message, 
+      data: []
+    });
   }
 };
 
@@ -172,16 +209,24 @@ exports.getMasjidByAreaSearch = async (req, res) => {
       return res.status(200).json({
         success: true,
         count: masjids.length,
-        data: masjids,
+        message:"Masjid Found",
+        data: masjids
       });
     }
 
-    return res.status(404).json({
+    return res.status(200).json({
       success: false,
-      message: 'Not Found',
+      count: 0 ,
+      message: " No Masjid's Found",
+      data: []
     });
   } catch (error) {
-    return res.status(500).json({ error: error.message });
+    return res.status(500).json({ 
+       success: false,
+      count: 0 ,
+      message: " No Masjid's Found" + error?.message ,
+      data: []
+    });
   }
 };
 
