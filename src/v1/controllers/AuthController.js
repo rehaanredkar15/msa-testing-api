@@ -43,9 +43,7 @@ exports.GetLocationDetailsFromIp = async (req, res) => {
  
     apiResponse = JSON.stringify(response.data);
 
-     usersDetails.push({ city : response.data.geoplugin_city })
-     usersDetails.push({ latitude : parseFloat(response.data.geoplugin_latitude) })
-     usersDetails.push({ longitude : parseFloat(response.data.geoplugin_longitude) })
+     usersDetails.push({ city : response.data.geoplugin_city,latitude : parseFloat(response.data.geoplugin_latitude), longitude : parseFloat(response.data.geoplugin_longitude)})
 
      return res.status(200).json({  
       success: true,
@@ -66,9 +64,7 @@ exports.GetLocationDetailsFromIp = async (req, res) => {
 
     apiResponse = JSON.stringify(response.data);
 
-     usersDetails.push({ city : response.data.city })
-     usersDetails.push({ latitude : response.data.latitude })
-     usersDetails.push({ longitude : response.data.longitude })
+     usersDetails.push({ city : response.data.city, latitude : response.data.latitude,longitude : response.data.longitude })
 
      return res.status(200).json({  
       success: true,
