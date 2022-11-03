@@ -369,6 +369,40 @@
                             "//comment":  "The timings can  be empty array also."
                         }
                     }
+                },
+                "ip": {
+                  "required": [
+                      "ip"
+                  ],
+                  "type": "object",
+                  "properties": {
+                      "ip": {
+                          "type": "string",
+                          "example": "110.225.19.157"
+                       }
+                    }
+                },
+                "location": {
+                  "required": [
+                      "city",
+                      "latitude",
+                      "longitude"
+                  ],
+                  "type": "object",
+                  "properties": {
+                      "city": {
+                          "type": "string",
+                          "example": "Kolkata"
+                       },
+                       "latitude":{
+                        "type":"number",
+                        "example":22.5626
+                       },
+                       "longitude":{
+                        "type":"number",
+                        "example":88.363
+                       }
+                    }
                 }
     },
     "paths":{
@@ -830,6 +864,35 @@
                   "description": "Timing which are found",
                   "schema": {
                     "$ref": "#/definitions/Timings"
+                  }
+                }
+              }
+            } 
+          },
+          "/v1/auth/getLocationDetailsFromIp": {
+            "post": {
+              "tags": [
+                "Location"
+              ],
+              "description": "Get location Details from the Ip ",
+              "parameters": [
+                {
+                   "name": "ip",
+                   "in": "body",
+                   "description": "Ip of the user",
+                    "schema": {
+                      "$ref": "#/definitions/ip"
+                   }
+                }
+              ],
+              "produces": [
+                "application/json"
+              ],
+              "responses": {
+                "200": {
+                  "description": "Location Details of the User",
+                  "schema": {
+                    "$ref": "#/definitions/location"
                   }
                 }
               }
