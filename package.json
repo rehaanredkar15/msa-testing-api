@@ -10,8 +10,8 @@
   "keywords": [],
   "author": "",
   "engines": {
-    "node": "16.x",
-    "npm":"16.x"
+    "node": "16.16.0",
+    "npm":"16.16.0"
    },
   "license": "ISC",
   "dependencies": {
