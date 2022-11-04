@@ -626,6 +626,24 @@
                 }
               }
             } 
+          },"/v1/events/getAllEvents": {
+            "post": {
+              "tags": [
+                "Events"
+              ],
+              "description": "Get All the events",
+              "produces": [
+                "application/json"
+              ],
+              "responses": {
+                "200": {
+                  "description": "Getting all the events",
+                  "schema": {
+                    "$ref": "#/definitions/Events"
+                  }
+                }
+              }
+            } 
           },
           "/v1/events/getEventById/{id}": {
             "get": {
