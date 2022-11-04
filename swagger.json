@@ -627,7 +627,7 @@
               }
             } 
           },"/v1/events/getAllEvents": {
-            "post": {
+            "get": {
               "tags": [
                 "Events"
               ],
